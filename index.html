@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lucas Coelho dos Santos — Backend Developer</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #222635;
+      --accent: #4f8ef7;
+      --accent2: #7c5cbf;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --border: #2d3348;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(15, 17, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(79, 142, 247, 0.12) 0%, transparent 70%);
+    }
+
+    .hero-content { max-width: 700px; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(79, 142, 247, 0.12);
+      border: 1px solid rgba(79, 142, 247, 0.3);
+      color: var(--accent);
+      font-size: 0.8rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0.3rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-location {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-location::before { content: "📍 "; }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #3a7be0;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 5rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 2.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    /* ABOUT */
+    .about-text {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 700px;
+    }
+
+    /* EXPERIENCE */
+    .timeline { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .timeline-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .timeline-item:hover {
+      border-color: rgba(79, 142, 247, 0.4);
+      transform: translateX(4px);
+    }
+
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-company {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .timeline-period {
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--surface2);
+      padding: 0.2rem 0.7rem;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .timeline-role {
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .timeline-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* SKILLS */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .skill-card h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.82rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* CERTIFICATIONS */
+    .certs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .cert-card:hover { border-color: rgba(79, 142, 247, 0.4); }
+
+    .cert-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .cert-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* EDUCATION */
+    .edu-list { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .edu-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.5rem;
+    }
+
+    .edu-school {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-degree {
+      color: var(--accent);
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-period {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    /* CONTACT */
+    #contact {
+      text-align: center;
+      border-top: 1px solid var(--border);
+      padding-top: 5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .contact-link:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2rem; }
+      .timeline-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">Lucas Coelho</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Available for opportunities</div>
+      <h1>Lucas Coelho<br /><span>dos Santos</span></h1>
+      <p class="hero-subtitle">Backend Developer · Java Developer · Software Developer</p>
+      <p class="hero-location">São Paulo, São Paulo, Brasil</p>
+      <div class="hero-cta">
+        <a href="https://www.linkedin.com/in/lucas-coelho-dos-santos-1b5888109" target="_blank" class="btn btn-primary">LinkedIn</a>
+        <a href="https://github.com/LucasCoelho01" target="_blank" class="btn btn-outline">GitHub</a>
+        <a href="https://www.instagram.com/l_ucascoelho" target="_blank" class="btn btn-outline">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">About</p>
+    <h2 class="section-title">Who I am</h2>
+    <p class="about-text">
+      Software developer focused on backend engineering with Java and Spring Framework.
+      Postgraduate in Software Architecture with solid experience delivering solutions for large-scale
+      financial institutions. AWS Certified Solutions Architect and passionate about building robust,
+      scalable systems. Experienced with SQL/PL-SQL, Linux, Agile methodologies, Git/GitHub, and JavaScript,
+      among other technologies.
+    </p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">Work History</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span class="timeline-company">Globant</span>
+          <span class="timeline-period">Nov 2025 – Present</span>
+        </div>
+        <p class="timeline-role">Senior Java Developer</p>
+        <p class="timeline-desc">São Paulo, São Paulo, Brazil</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span class="timeline-company">F1RST Digital Services</span>
+          <span class="timeline-period">Feb 2024 – Nov 2025 · 1 yr 10 mo</span>
+        </div>
+        <p class="timeline-role">Software Developer</p>
+        <p class="timeline-desc">Backend developer on Santander — Java, Maven, Git, Jenkins, Jira and Spring.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span class="timeline-company">MJV Technology &amp; Innovation</span>
+          <span class="timeline-period">Jul 2023 – Jan 2024 · 7 mo</span>
+        </div>
+        <p class="timeline-role">Java Developer</p>
+        <p class="timeline-desc">Backend developer on Santander.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span class="timeline-company">EISA</span>
+          <span class="timeline-period">Dec 2021 – Jul 2023 · 1 yr 8 mo</span>
+        </div>
+        <p class="timeline-role">System Analyst</p>
+        <p class="timeline-desc">São Paulo, Brazil</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span class="timeline-company">Equinix</span>
+          <span class="timeline-period">Jul 2020 – Dec 2021 · 1 yr 6 mo</span>
+        </div>
+        <p class="timeline-role">Intern</p>
+        <p class="timeline-desc">São Paulo, São Paulo, Brasil</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-header">
+          <span class="timeline-company">TOTVS</span>
+          <span class="timeline-period">Oct 2018 – Jun 2020 · 1 yr 9 mo</span>
+        </div>
+        <p class="timeline-role">Development Technician</p>
+        <p class="timeline-desc">São Paulo, São Paulo, Brazil</p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">Tech Stack</h2>
+    <div class="skills-grid">
+
+      <div class="skill-card">
+        <h3>Languages</h3>
+        <div class="tags">
+          <span class="tag">Java</span>
+          <span class="tag">SQL</span>
+          <span class="tag">PL/SQL</span>
+          <span class="tag">JavaScript</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h3>Frameworks &amp; Tools</h3>
+        <div class="tags">
+          <span class="tag">Spring Framework</span>
+          <span class="tag">Spring Boot</span>
+          <span class="tag">Maven</span>
+          <span class="tag">Jenkins</span>
+          <span class="tag">Git / GitHub</span>
+          <span class="tag">Jira</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h3>Cloud &amp; Infrastructure</h3>
+        <div class="tags">
+          <span class="tag">AWS</span>
+          <span class="tag">Azure</span>
+          <span class="tag">Linux</span>
+          <span class="tag">DevOps</span>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <h3>Practices</h3>
+        <div class="tags">
+          <span class="tag">Agile / Scrum</span>
+          <span class="tag">Software Architecture</span>
+          <span class="tag">Backend Development</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <p class="section-label">Certifications</p>
+    <h2 class="section-title">Credentials</h2>
+    <div class="certs-grid">
+
+      <div class="cert-card">
+        <span class="cert-icon">☁️</span>
+        <span class="cert-name">AWS Certified Solutions Architect – Associate</span>
+      </div>
+
+      <div class="cert-card">
+        <span class="cert-icon">☁️</span>
+        <span class="cert-name">Microsoft Certified: Azure Fundamentals</span>
+      </div>
+
+      <div class="cert-card">
+        <span class="cert-icon">⚙️</span>
+        <span class="cert-name">DevOps Essentials Professional Certificate (DEPC)</span>
+      </div>
+
+      <div class="cert-card">
+        <span class="cert-icon">🐧</span>
+        <span class="cert-name">Linux Professional Institute Linux Essentials</span>
+      </div>
+
+      <div class="cert-card">
+        <span class="cert-icon">🔄</span>
+        <span class="cert-name">Scrum Foundations Professional Certificate (SFPC)</span>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <p class="section-label">Education</p>
+    <h2 class="section-title">Academic Background</h2>
+    <div class="edu-list">
+
+      <div class="edu-item">
+        <p class="edu-school">Federal University of Technology – Paraná (UTFPR)</p>
+        <p class="edu-degree">Postgraduate Degree — Computer Software Engineering</p>
+        <p class="edu-period">September 2025</p>
+      </div>
+
+      <div class="edu-item">
+        <p class="edu-school">FIAP</p>
+        <p class="edu-degree">Software Architecture — Computer and Information Sciences</p>
+        <p class="edu-period">October 2023 – December 2024</p>
+      </div>
+
+      <div class="edu-item">
+        <p class="edu-school">Faculdade de Tecnologia de São Paulo – FATEC-SP</p>
+        <p class="edu-degree">Systems Analysis and Development — Information Technology / Software</p>
+        <p class="edu-period">2017 – 2021</p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label">Contact</p>
+    <h2 class="section-title">Get In Touch</h2>
+    <p style="color: var(--muted); max-width: 500px; margin: 0 auto 0.5rem;">
+      Open to new opportunities, collaborations, or just a tech chat.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:lucas.goleiro1995@gmail.com" class="contact-link">
+        ✉️ lucas.goleiro1995@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/lucas-coelho-dos-santos-1b5888109" target="_blank" class="contact-link">
+        💼 LinkedIn
+      </a>
+      <a href="https://github.com/LucasCoelho01" target="_blank" class="contact-link">
+        🐙 GitHub
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Lucas Coelho dos Santos · Built with HTML &amp; CSS</p>
+  </footer>
+
+</body>
+</html>
